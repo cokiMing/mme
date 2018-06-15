@@ -6,7 +6,7 @@
 
     <groupId>com.ming.sql</groupId>
     <artifactId>mme</artifactId>
-    <version>0.0.5-beta</version>
+    <version>0.0.7-beta</version>
 
     <distributionManagement>
         <repository>
