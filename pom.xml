@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ming.sql</groupId>
+    <artifactId>mme</artifactId>
+    <version>0.0.5-beta</version>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus release</id>
+            <name>nexus releases</name>
+            <url>http://10.0.0.249:8081/content/repositories/releases</url>
+            <!--            <url>http://182.92.3.149:8081/content/repositories/releases</url>  -->
+        </repository>
+        <snapshotRepository>
+            <id>nexus snapshot</id>
+            <name>nexus snapshots</name>
+            <url>http://10.0.0.249:8081/content/repositories/snapshots</url>
+            <!--            <url>http://182.92.3.149:8081/content/repositories/snapshots</url> -->
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.3.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.3.3.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>mybatis-mysql-extends</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
