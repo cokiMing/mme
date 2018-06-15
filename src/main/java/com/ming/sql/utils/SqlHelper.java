@@ -201,6 +201,7 @@ public class SqlHelper {
                 if (o instanceof Date) {
                     value = defaultDateFormat.format(o);
                 }
+                value = value.replace("'","\'");
                 stringBuilder.append("'").append(value).append("'").append(",");
             } else {
                 stringBuilder.append("NULL,");

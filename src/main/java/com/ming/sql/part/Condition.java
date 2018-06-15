@@ -229,6 +229,7 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
+        content = content.replace("'", "\'");
 
         return "'" + content + "'";
     }
@@ -242,6 +243,7 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
+        content = content.replace("'", "\'");
 
         return content;
     }
