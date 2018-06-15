@@ -1,8 +1,8 @@
-##欢迎使用mybatis-mysql-extends
+欢迎使用mybatis-mysql-extends
 
-####本项目适用于基于mybatis注解实现的单表查询，以下是使用说明
+本项目适用于基于mybatis注解实现的单表查询，以下是使用说明
 
-#####1.查询
+1.查询
 
 ```
     //类必须继承本项目中的BaseService类
@@ -19,7 +19,7 @@
     }
 ```
 
-#####2.更新
+2.更新
 
 ```
     //类必须继承本项目中的BaseService类
@@ -38,7 +38,7 @@
     }
 ```
 
-#####3.删除
+3.删除
 
 ```
     //类必须继承本项目中的BaseService类
@@ -55,7 +55,7 @@
     }
 ```
 
-#####4.新增（BaseService中已经带有单个和批量新增方法）
+4.新增（BaseService中已经带有单个和批量新增方法）
 
 ```
     public int insert(T t) {
@@ -67,7 +67,7 @@
     }
 ```
 
-#####5.自定义sql
+5.自定义sql
 
 ```
     //在StudentMapper中写好相关的sql语句
@@ -81,4 +81,31 @@
         return mapper.selectByXX(xx);
     }
     
+```
+
+6.Mapper以及Service代码文件的自动生成
+
+```
+    /**
+     * 调用CodeGenerator中的generate方法，
+       第一参数为实体类所在包，
+       第二个参数为自动生成的Mapper所要放置的包位置（必须提前建好），
+       第三个参数为自动生成的Service所要放置的包位置（必须提前建好）
+     * @param packageName       实体类的包名
+     * @param mapperPackage     mapper的包名
+     * @param servicePackage    service的包名
+     */
+    public static void generate(String packageName,String mapperPackage,String servicePackage) {
+        try {
+            List<String> fileNames = recursiveFiles(convertPackageToPath(packageName));
+            for (String fileName : fileNames) {
+                Class<?> aClass = Class.forName(packageName + "." + fileName.replace(".java", ""));
+                generateMapper(aClass,mapperPackage,convertPackageToPath(mapperPackage));
+                generateService(aClass,servicePackage,mapperPackage,convertPackageToPath(servicePackage));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 ```
