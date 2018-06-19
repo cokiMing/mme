@@ -201,7 +201,7 @@ public class SqlHelper {
                 if (o instanceof Date) {
                     value = defaultDateFormat.format(o);
                 }
-                value = value.replace("'","\\'");
+                value = replaceInvalidChar(value);
                 stringBuilder.append("'").append(value).append("'").append(",");
             } else {
                 stringBuilder.append("NULL,");
@@ -228,6 +228,14 @@ public class SqlHelper {
         }
 
         return tableName;
+    }
+
+    public static String replaceInvalidChar(String content) {
+        content = content.replace("\\","")
+                .replace("/","")
+                .replace("'","\\'");
+
+        return content;
     }
 
 }

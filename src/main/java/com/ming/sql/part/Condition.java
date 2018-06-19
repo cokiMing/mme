@@ -1,5 +1,7 @@
 package com.ming.sql.part;
 
+import com.ming.sql.utils.SqlHelper;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -229,7 +231,7 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
-        content = replaceInvalidChar(content);
+        content = SqlHelper.replaceInvalidChar(content);
 
         return "'" + content + "'";
     }
@@ -243,15 +245,7 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
-        content = replaceInvalidChar(content);
-
-        return content;
-    }
-
-    private String replaceInvalidChar(String content) {
-        content = content.replace("\\","")
-                .replace("/","")
-                .replace("'","\\'");
+        content = SqlHelper.replaceInvalidChar(content);
 
         return content;
     }
