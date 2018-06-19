@@ -229,7 +229,7 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
-        content = content.replace("'", "\\'");
+        content = replaceInvalidChar(content);
 
         return "'" + content + "'";
     }
@@ -243,7 +243,15 @@ public class Condition {
         if (object instanceof Date) {
             content = defaultFormat.format(object);
         }
-        content = content.replace("'", "\\'");
+        content = replaceInvalidChar(content);
+
+        return content;
+    }
+
+    private String replaceInvalidChar(String content) {
+        content = content.replace("\\","")
+                .replace("/","")
+                .replace("'","\\'");
 
         return content;
     }

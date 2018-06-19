@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ming.sql</groupId>
-    <artifactId>mme</artifactId>
-    <version>0.0.7-beta</version>
+    <artifactId>mybatis-mysql-extends</artifactId>
+    <version>0.0.2-beta</version>
 
     <distributionManagement>
         <repository>
