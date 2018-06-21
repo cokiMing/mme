@@ -33,7 +33,7 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
             ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
             Type[] types = type.getActualTypeArguments();
             clazz = (Class<T>) types[0];
-            mapper = (M)applicationContext.getBean((Class<T>)types[1]);
+            mapper = applicationContext.getBean((Class<M>)types[1]);
         }
     }
 
