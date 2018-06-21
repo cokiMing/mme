@@ -34,6 +34,40 @@ public class SqlHelper {
     }
 
     /**
+     * 更新
+     * @param object
+     * @return
+     */
+    public static String updateById(Object object,String idName) {
+        Field[] declaredFields = object.getClass().getDeclaredFields();
+        SqlUpdate sqlUpdate = SqlUpdate.newInstant();
+        Object idValue = null;
+        try {
+            for (Field field : declaredFields) {
+                field.setAccessible(true);
+                Object value = field.get(object);
+                if (value != null) {
+                    if (!field.getName().endsWith(idName)) {
+                        sqlUpdate.set(field.getName(),value);
+                    } else {
+                        idValue = value;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (idValue == null) {
+            throw new RuntimeException("Can not find field with idName: " + idName);
+        }
+
+        SqlQuery sqlQuery = SqlQuery.newInstant();
+        sqlQuery.field(idName).equal(idValue);
+        return update(sqlQuery,sqlUpdate,object.getClass());
+    }
+
+    /**
      * 批量插入语句
      * @param list 批量插入的数组
      * @return
