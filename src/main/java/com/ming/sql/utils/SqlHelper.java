@@ -146,6 +146,17 @@ public class SqlHelper {
         return "SELECT COUNT(*) FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
+    /**
+     * 获取总合数
+     * @param sqlQuery
+     * @param field
+     * @param clazz
+     * @return
+     */
+    public static String sum(SqlQuery sqlQuery,String field, Class<?> clazz) {
+        return "SELECT SUM(" + field + ") FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
+    }
+
     private static String resultMap(Class<?> clazz) {
         StringBuilder tempBuilder = new StringBuilder();
         for (Field field : clazz.getDeclaredFields()) {

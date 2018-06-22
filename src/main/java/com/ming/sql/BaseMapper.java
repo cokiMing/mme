@@ -29,4 +29,7 @@ public interface BaseMapper<T> {
     @Select("${sql}")
     int count(@Param("sql") String sql);
 
+    @Select("${sql}")
+    Double sum(@Param("sql") String sql);
+
 }

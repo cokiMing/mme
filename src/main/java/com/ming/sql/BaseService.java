@@ -70,6 +70,10 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
         return mapper.update(SqlHelper.updateById(t,idName));
     }
 
+    public Double sum(SqlQuery sqlQuery,String field) {
+        return mapper.sum(SqlHelper.sum(sqlQuery,field,clazz));
+    }
+
     public int batchInsert(List<T> list) {
         return mapper.insert(SqlHelper.batchInsert(list));
     }
