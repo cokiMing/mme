@@ -6,7 +6,7 @@
 
     <groupId>com.ming.sql</groupId>
     <artifactId>mybatis-mysql-extends</artifactId>
-    <version>0.0.4-beta</version>
+    <version>0.0.6-beta</version>
 
     <distributionManagement>
         <repository>

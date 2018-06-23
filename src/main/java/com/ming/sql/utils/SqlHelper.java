@@ -34,11 +34,11 @@ public class SqlHelper {
     }
 
     /**
-     * 更新
+     * 更新 (可支持更新空值)
      * @param object
      * @return
      */
-    public static String updateById(Object object,String idName) {
+    public static String updateById(Object object,String idName,boolean updateNull) {
         Field[] declaredFields = object.getClass().getDeclaredFields();
         SqlUpdate sqlUpdate = SqlUpdate.newInstant();
         Object idValue = null;
@@ -51,6 +51,10 @@ public class SqlHelper {
                         sqlUpdate.set(field.getName(),value);
                     } else {
                         idValue = value;
+                    }
+                } else {
+                    if (updateNull) {
+                        sqlUpdate.unset(field.getName());
                     }
                 }
             }
