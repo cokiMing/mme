@@ -2,6 +2,8 @@ package com.ming.sql.utils;
 
 import com.ming.sql.annotation.Column;
 import com.ming.sql.annotation.TableName;
+import com.ming.sql.exception.EmptyListException;
+import com.ming.sql.exception.IdFieldNotFoundException;
 import com.ming.sql.part.SqlQuery;
 import com.ming.sql.part.SqlUpdate;
 
@@ -63,7 +65,7 @@ public class SqlHelper {
         }
 
         if (idValue == null) {
-            throw new RuntimeException("Can not find field with idName: " + idName);
+            throw new IdFieldNotFoundException("Can not find field with idName: " + idName);
         }
 
         SqlQuery sqlQuery = SqlQuery.newInstant();
@@ -78,7 +80,7 @@ public class SqlHelper {
      */
     public static String batchInsert(List<?> list) {
         if (list == null || list.size() == 0) {
-            throw new RuntimeException("list's size must be greater than 0");
+            throw new EmptyListException("list's size must be greater than 0");
         }
 
         TableName tableName = list.get(0).getClass().getAnnotation(TableName.class);

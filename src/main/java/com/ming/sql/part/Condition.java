@@ -1,5 +1,6 @@
 package com.ming.sql.part;
 
+import com.ming.sql.exception.EmptyListException;
 import com.ming.sql.utils.SqlHelper;
 
 import java.text.DateFormat;
@@ -153,7 +154,7 @@ public class Condition {
      */
     public Fragment in(Collection<?> collection) {
         if (collection.size() == 0) {
-            throw new RuntimeException("collection's size must be greater than 0");
+            throw new EmptyListException("collection's size must be greater than 0");
         }
 
         StringBuilder stringBuilder = new StringBuilder(field);
