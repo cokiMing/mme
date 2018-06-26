@@ -17,8 +17,7 @@ public class SqlQuery extends Fragment{
     private String built;
 
     public static SqlQuery newInstant() {
-        SqlQuery sqlQuery = new SqlQuery();
-        return sqlQuery;
+        return new SqlQuery();
     }
 
     public static Fragment fragment() {
@@ -31,21 +30,24 @@ public class SqlQuery extends Fragment{
 
     /**
      * 或条件查询
-     * @param fragments 条件
+     * @param fragment 条件
      * @return
      */
-    public SqlQuery or(Fragment... fragments) {
-        for (Fragment fragment : fragments) {
-            if (orBuilder != null) {
-                orBuilder.append(" OR ");
-            } else {
-                orBuilder = new StringBuilder();
-            }
-            orBuilder.append("(").append(fragment.buildPart()).append(")");
+    public SqlQuery or(Fragment fragment) {
+        if (orBuilder != null) {
+            orBuilder.append(" OR ");
+        } else {
+            orBuilder = new StringBuilder();
         }
+        orBuilder.append("(").append(fragment.buildPart()).append(")");
         return this;
     }
 
+    /**
+     * 并列的或条件查询
+     * @param fragments 条件集合
+     * @return
+     */
     public SqlQuery andOrConditions(Fragment... fragments) {
         for (int i = 0; i < fragments.length; i++) {
             if (andOrBuilder != null) {
