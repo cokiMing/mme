@@ -12,6 +12,8 @@ public class SqlQuery extends Fragment{
 
     private StringBuilder orBuilder;
 
+    private StringBuilder andOrBuilder;
+
     private String built;
 
     public static SqlQuery newInstant() {
@@ -41,6 +43,25 @@ public class SqlQuery extends Fragment{
             }
             orBuilder.append("(").append(fragment.buildPart()).append(")");
         }
+        return this;
+    }
+
+    public SqlQuery andOrConditions(Fragment... fragments) {
+        for (int i = 0; i < fragments.length; i++) {
+            if (andOrBuilder != null) {
+                if (i == 0) {
+                    andOrBuilder.append(" AND (");
+                } else {
+                    andOrBuilder.append(" OR ");
+                }
+            } else {
+                andOrBuilder = new StringBuilder("(");
+            }
+            andOrBuilder.append("(").append(fragments[i].buildPart()).append(")");
+        }
+
+        andOrBuilder.append(")");
+
         return this;
     }
 
@@ -116,6 +137,10 @@ public class SqlQuery extends Fragment{
                     fragmentBuilder.append(" AND ");
                 }
                 fragmentBuilder.append(orBuilder);
+            }
+            if (andOrBuilder != null) {
+                fragmentBuilder.append(" AND ");
+                fragmentBuilder.append(andOrBuilder);
             }
             if (orderBuilder != null) {
                 fragmentBuilder.append(orderBuilder);
