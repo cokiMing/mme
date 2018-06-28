@@ -48,6 +48,24 @@ public class Condition {
     }
 
     /**
+     * 为空
+     * @return
+     */
+    public Fragment isNull() {
+        partStr = field + " IS NULL ";
+        return returnFragment();
+    }
+
+    /**
+     * 不为空
+     * @return
+     */
+    public Fragment isNotNull() {
+        partStr = field + " IS NOT NULL ";
+        return returnFragment();
+    }
+
+    /**
      * 类似于
      * @param object
      * @return
