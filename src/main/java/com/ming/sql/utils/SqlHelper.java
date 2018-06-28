@@ -8,6 +8,7 @@ import com.ming.sql.part.SqlQuery;
 import com.ming.sql.part.SqlUpdate;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +47,9 @@ public class SqlHelper {
         Object idValue = null;
         try {
             for (Field field : declaredFields) {
+                if (isStatic(field)) {
+                    continue;
+                }
                 field.setAccessible(true);
                 Object value = field.get(object);
                 if (value != null) {
@@ -166,6 +170,9 @@ public class SqlHelper {
     private static String resultMap(Class<?> clazz) {
         StringBuilder tempBuilder = new StringBuilder();
         for (Field field : clazz.getDeclaredFields()) {
+            if (isStatic(field)) {
+                continue;
+            }
             if (tempBuilder.length() != 0) {
                 tempBuilder.append(",");
             }
@@ -192,6 +199,9 @@ public class SqlHelper {
         StringBuilder fieldBuilder = new StringBuilder("(");
         StringBuilder valueBuilder = new StringBuilder("(");
         for (Field field : fields) {
+            if (isStatic(field)) {
+                continue;
+            }
             field.setAccessible(true);
             fieldBuilder.append(getFieldName(field)).append(",");
             appendFields(field,t,valueBuilder);
@@ -222,6 +232,9 @@ public class SqlHelper {
             if (fieldBuilder == null) {
                 fieldBuilder = new StringBuilder("(");
                 for (Field field : allFields) {
+                    if (isStatic(field)) {
+                        continue;
+                    }
                     fieldBuilder.append(getFieldName(field)).append(",");
                 }
 
@@ -231,6 +244,9 @@ public class SqlHelper {
 
             StringBuilder valueBuilder = new StringBuilder("(");
             for (Field field : allFields) {
+                if (isStatic(field)) {
+                    continue;
+                }
                 field.setAccessible(true);
                 appendFields(field,t,valueBuilder);
             }
@@ -279,6 +295,10 @@ public class SqlHelper {
         }
 
         return tableName;
+    }
+
+    private static boolean isStatic(Field field) {
+        return Modifier.isStatic(field.getModifiers());
     }
 
     public static String replaceInvalidChar(String content) {
