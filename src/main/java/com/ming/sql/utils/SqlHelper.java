@@ -3,6 +3,7 @@ package com.ming.sql.utils;
 import com.ming.sql.annotation.Column;
 import com.ming.sql.annotation.Id;
 import com.ming.sql.annotation.TableName;
+import com.ming.sql.combination.CombinationPipeline;
 import com.ming.sql.exception.EmptyListException;
 import com.ming.sql.exception.IdAnnotationNotFoundException;
 import com.ming.sql.part.SqlQuery;
@@ -151,6 +152,25 @@ public class SqlHelper {
         return "SELECT " + resultMap(clazz) + " FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
+    public static String select(CombinationPipeline pipeline) {
+        String content = "SELECT " + createResults(pipeline.getRetainFields())
+                + " FROM " + pipeline.getJoinExpression() + " WHERE 1 = 1 ";
+        return content + (pipeline.getSqlQuery() == null ?"":pipeline.getSqlQuery().buildPart());
+    }
+
+    private static String createResults(List<String> fields) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String field : fields) {
+            if (stringBuilder.length() == 0) {
+                stringBuilder.append(field);
+            } else {
+                stringBuilder.append(",").append(field);
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
     /**
      * 查询个数
      * @param sqlQuery 查询条件
@@ -292,7 +312,7 @@ public class SqlHelper {
         return fieldName;
     }
 
-    private static String getTableName(Class<?> clazz) {
+    public static String getTableName(Class<?> clazz) {
         String tableName = clazz.getSimpleName();
         TableName annotation = clazz.getAnnotation(TableName.class);
         if (annotation != null) {
@@ -302,7 +322,7 @@ public class SqlHelper {
         return tableName;
     }
 
-    private static boolean isStatic(Field field) {
+    public static boolean isStatic(Field field) {
         return Modifier.isStatic(field.getModifiers());
     }
 
