@@ -66,8 +66,8 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
         return mapper.insert(SqlHelper.insert(t));
     }
 
-    public int updateById(T t,String idName,boolean updateNull) {
-        return mapper.update(SqlHelper.updateById(t,idName,updateNull));
+    public int updateById(T t,boolean updateNull) {
+        return mapper.update(SqlHelper.updateById(t,updateNull));
     }
 
     public Double sum(SqlQuery sqlQuery,String field) {

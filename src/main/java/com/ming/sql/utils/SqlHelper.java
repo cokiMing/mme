@@ -1,9 +1,10 @@
 package com.ming.sql.utils;
 
 import com.ming.sql.annotation.Column;
+import com.ming.sql.annotation.Id;
 import com.ming.sql.annotation.TableName;
 import com.ming.sql.exception.EmptyListException;
-import com.ming.sql.exception.IdFieldNotFoundException;
+import com.ming.sql.exception.IdAnnotationNotFoundException;
 import com.ming.sql.part.SqlQuery;
 import com.ming.sql.part.SqlUpdate;
 
@@ -41,10 +42,12 @@ public class SqlHelper {
      * @param object
      * @return
      */
-    public static String updateById(Object object,String idName,boolean updateNull) {
+    public static String updateById(Object object,boolean updateNull) {
         Field[] declaredFields = object.getClass().getDeclaredFields();
         SqlUpdate sqlUpdate = SqlUpdate.newInstant();
         Object idValue = null;
+        String idName = null;
+
         try {
             for (Field field : declaredFields) {
                 if (isStatic(field)) {
@@ -53,10 +56,12 @@ public class SqlHelper {
                 field.setAccessible(true);
                 Object value = field.get(object);
                 if (value != null) {
-                    if (!field.getName().endsWith(idName)) {
-                        sqlUpdate.set(field.getName(),value);
-                    } else {
+                    Id idAnnotation = field.getAnnotation(Id.class);
+                    if (idAnnotation != null) {
                         idValue = value;
+                        idName = field.getName();
+                    } else {
+                        sqlUpdate.set(field.getName(),value);
                     }
                 } else {
                     if (updateNull) {
@@ -69,7 +74,7 @@ public class SqlHelper {
         }
 
         if (idValue == null) {
-            throw new IdFieldNotFoundException("Can not find field with idName: " + idName);
+            throw new IdAnnotationNotFoundException("Can not find Annotation @Id on any field");
         }
 
         SqlQuery sqlQuery = SqlQuery.newInstant();
