@@ -269,6 +269,7 @@ public class SqlHelper {
                         continue;
                     }
                     try {
+                        field.setAccessible(true);
                         if (field.get(t) == null) {
                             continue;
                         }
