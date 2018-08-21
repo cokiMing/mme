@@ -228,6 +228,14 @@ public class SqlHelper {
                 continue;
             }
             field.setAccessible(true);
+            try {
+                if (field.get(t) == null) {
+                    continue;
+                }
+            } catch (Exception e) {
+                continue;
+            }
+
             fieldBuilder.append(getFieldName(field)).append(",");
             appendFields(field,t,valueBuilder);
         }
@@ -260,6 +268,13 @@ public class SqlHelper {
                     if (isStatic(field)) {
                         continue;
                     }
+                    try {
+                        if (field.get(t) == null) {
+                            continue;
+                        }
+                    } catch (Exception e) {
+                        continue;
+                    }
                     fieldBuilder.append(getFieldName(field)).append(",");
                 }
 
@@ -270,6 +285,13 @@ public class SqlHelper {
             StringBuilder valueBuilder = new StringBuilder("(");
             for (Field field : allFields) {
                 if (isStatic(field)) {
+                    continue;
+                }
+                try {
+                    if (field.get(t) == null) {
+                        continue;
+                    }
+                } catch (Exception e) {
                     continue;
                 }
                 field.setAccessible(true);
