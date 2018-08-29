@@ -6,20 +6,18 @@
 
     <groupId>com.ming.sql</groupId>
     <artifactId>mybatis-mysql-extends</artifactId>
-    <version>0.0.12-beta</version>
+    <version>0.0.13-beta</version>
 
     <distributionManagement>
         <repository>
             <id>nexus release</id>
             <name>nexus releases</name>
             <url>http://10.0.0.249:8081/content/repositories/releases</url>
-            <!-- <url>http://182.92.3.149:8081/content/repositories/releases</url> -->
         </repository>
         <snapshotRepository>
             <id>nexus snapshot</id>
             <name>nexus snapshots</name>
             <url>http://10.0.0.249:8081/content/repositories/snapshots</url>
-            <!-- <url>http://182.92.3.149:8081/content/repositories/snapshots</url> -->
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
