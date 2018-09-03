@@ -1,7 +1,6 @@
 package com.ming.sql;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ming.sql.combination.CombinationPipeline;
 import com.ming.sql.part.SqlQuery;
 import com.ming.sql.part.SqlUpdate;
 import com.ming.sql.utils.SqlHelper;
@@ -80,19 +79,11 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
         return mapper.insert(SqlHelper.batchInsert(list));
     }
 
-    public List<JSONObject> find(CombinationPipeline combinationPipeline) {
-        return mapper.listOnJoin(SqlHelper.select(combinationPipeline));
-    }
-
     public int update(SqlQuery sqlQuery, SqlUpdate sqlUpdate) {
         return mapper.update(SqlHelper.update(sqlQuery,sqlUpdate,clazz));
     }
 
     public int delete(SqlQuery sqlQuery) {
         return mapper.delete(SqlHelper.delete(sqlQuery,clazz));
-    }
-
-    public CombinationPipeline createCombination(Class<T> aClass) {
-        return new CombinationPipeline<T>(aClass);
     }
 }

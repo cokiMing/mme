@@ -16,6 +16,8 @@ public class SqlQuery extends Fragment{
 
     private String built;
 
+    private String tableName;
+
     public static SqlQuery newInstant() {
         return new SqlQuery();
     }
@@ -123,6 +125,14 @@ public class SqlQuery extends Fragment{
         }
         orderBuilder.append(field).append(" DESC");
         return this;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     @Override

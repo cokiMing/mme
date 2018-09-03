@@ -3,7 +3,6 @@ package com.ming.sql.utils;
 import com.ming.sql.annotation.Column;
 import com.ming.sql.annotation.Id;
 import com.ming.sql.annotation.TableName;
-import com.ming.sql.combination.CombinationPipeline;
 import com.ming.sql.exception.EmptyListException;
 import com.ming.sql.exception.IdAnnotationNotFoundException;
 import com.ming.sql.part.SqlQuery;
@@ -109,7 +108,7 @@ public class SqlHelper {
      * @return
      */
     public static String update(SqlQuery sqlQuery, SqlUpdate sqlUpdate, Class<?> clazz) {
-        return "UPDATE " + getTableName(clazz) + " SET " + sqlUpdate.buildPart() + " WHERE 1 = 1 " + sqlQuery.buildPart();
+        return "UPDATE " + getTableName(clazz,sqlQuery) + " SET " + sqlUpdate.buildPart() + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
     /**
@@ -119,7 +118,7 @@ public class SqlHelper {
      * @return
      */
     public static String delete(SqlQuery sqlQuery, Class<?> clazz) {
-        return "DELETE FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
+        return "DELETE FROM " + getTableName(clazz,sqlQuery) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
     /**
@@ -129,7 +128,7 @@ public class SqlHelper {
      * @return
      */
     public static String selectOne(SqlQuery sqlQuery, Class<?> clazz) {
-        return "SELECT " + resultMap(clazz) + " FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart() + " LIMIT 0,1";
+        return "SELECT " + resultMap(clazz) + " FROM " + getTableName(clazz,sqlQuery) + " WHERE 1 = 1 " + sqlQuery.buildPart() + " LIMIT 0,1";
     }
 
     /**
@@ -149,14 +148,9 @@ public class SqlHelper {
      * @return
      */
     public static String select(SqlQuery sqlQuery, Class<?> clazz) {
-        return "SELECT " + resultMap(clazz) + " FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
+        return "SELECT " + resultMap(clazz) + " FROM " + getTableName(clazz,sqlQuery) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
-    public static String select(CombinationPipeline pipeline) {
-        String content = "SELECT " + createResults(pipeline.getRetainFields())
-                + " FROM " + pipeline.getJoinExpression() + " WHERE 1 = 1 ";
-        return content + (pipeline.getSqlQuery() == null ?"":pipeline.getSqlQuery().buildPart());
-    }
 
     private static String createResults(List<String> fields) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -178,7 +172,7 @@ public class SqlHelper {
      * @return
      */
     public static String count(SqlQuery sqlQuery, Class<?> clazz) {
-        return "SELECT COUNT(*) FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
+        return "SELECT COUNT(*) FROM " + getTableName(clazz,sqlQuery) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
     /**
@@ -189,7 +183,7 @@ public class SqlHelper {
      * @return
      */
     public static String sum(SqlQuery sqlQuery,String field, Class<?> clazz) {
-        return "SELECT SUM(" + field + ") FROM " + getTableName(clazz) + " WHERE 1 = 1 " + sqlQuery.buildPart();
+        return "SELECT SUM(" + field + ") FROM " + getTableName(clazz,sqlQuery) + " WHERE 1 = 1 " + sqlQuery.buildPart();
     }
 
     private static String resultMap(Class<?> clazz) {
@@ -336,11 +330,14 @@ public class SqlHelper {
         return fieldName;
     }
 
-    public static String getTableName(Class<?> clazz) {
-        String tableName = clazz.getSimpleName();
-        TableName annotation = clazz.getAnnotation(TableName.class);
-        if (annotation != null) {
-            tableName = annotation.value();
+    public static String getTableName(Class<?> clazz,SqlQuery sqlQuery) {
+        String tableName = sqlQuery.getTableName();
+        if (tableName == null) {
+            tableName = clazz.getSimpleName();
+            TableName annotation = clazz.getAnnotation(TableName.class);
+            if (annotation != null) {
+                tableName = annotation.value();
+            }
         }
 
         return tableName;
