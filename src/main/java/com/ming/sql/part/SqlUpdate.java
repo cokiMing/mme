@@ -1,7 +1,5 @@
 package com.ming.sql.part;
 
-import com.ming.sql.exception.NullValueException;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +30,7 @@ public class SqlUpdate implements Part {
      */
     public SqlUpdate set(String field,Object value) {
         if (value == null) {
-            throw new NullValueException("value can not be null");
+            return this;
         }
         String content = value.toString();
         if (value instanceof Date) {

@@ -80,6 +80,9 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
     }
 
     public int update(SqlQuery sqlQuery, SqlUpdate sqlUpdate) {
+        if (sqlUpdate.buildPart().length() == 0) {
+            return 0;
+        }
         return mapper.update(SqlHelper.update(sqlQuery,sqlUpdate,clazz));
     }
 
