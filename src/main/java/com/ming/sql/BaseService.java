@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wuyiming
@@ -88,5 +89,9 @@ public class BaseService<T,M extends BaseMapper<T>> implements ApplicationContex
 
     public int delete(SqlQuery sqlQuery) {
         return mapper.delete(SqlHelper.delete(sqlQuery,clazz));
+    }
+
+    public List<Map> findMapList(String sql){
+        return mapper.findMapList(sql);
     }
 }

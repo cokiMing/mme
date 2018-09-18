@@ -1,6 +1,5 @@
 package com.ming.sql;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -34,6 +33,6 @@ public interface BaseMapper<T> {
     Double sum(@Param("sql") String sql);
 
     @Select("${sql}")
-    List<JSONObject> listOnJoin(@Param("sql") String sql);
+    List<Map> findMapList(@Param("sql") String sql);
 
 }

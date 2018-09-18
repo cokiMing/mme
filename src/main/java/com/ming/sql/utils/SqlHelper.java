@@ -221,14 +221,6 @@ public class SqlHelper {
             if (isStatic(field)) {
                 continue;
             }
-            field.setAccessible(true);
-            try {
-                if (field.get(t) == null) {
-                    continue;
-                }
-            } catch (Exception e) {
-                continue;
-            }
 
             fieldBuilder.append(getFieldName(field)).append(",");
             appendFields(field,t,valueBuilder);
@@ -262,14 +254,6 @@ public class SqlHelper {
                     if (isStatic(field)) {
                         continue;
                     }
-                    try {
-                        field.setAccessible(true);
-                        if (field.get(t) == null) {
-                            continue;
-                        }
-                    } catch (Exception e) {
-                        continue;
-                    }
                     fieldBuilder.append(getFieldName(field)).append(",");
                 }
 
@@ -282,15 +266,6 @@ public class SqlHelper {
                 if (isStatic(field)) {
                     continue;
                 }
-                try {
-                    field.setAccessible(true);
-                    if (field.get(t) == null) {
-                        continue;
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-                field.setAccessible(true);
                 appendFields(field,t,valueBuilder);
             }
 
@@ -305,6 +280,7 @@ public class SqlHelper {
 
     private static  <T> void appendFields(Field field,T t,StringBuilder stringBuilder) {
         try {
+            field.setAccessible(true);
             Object o = field.get(t);
             if (o != null) {
                 String value = o.toString();
