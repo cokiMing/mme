@@ -325,7 +325,6 @@ public class SqlHelper {
 
     public static String replaceInvalidChar(String content) {
         content = content.replace("\\","")
-                .replace("/","")
                 .replace("'","\\'");
 
         return content;
